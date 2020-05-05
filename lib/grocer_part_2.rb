@@ -4,6 +4,21 @@ def apply_coupons(cart, coupons)
   # Consult README for inputs and outputs
   #
   # REMEMBER: This method **should** update cart
+  if item_w_coupon and item_info[:count] >= coupon[:num]
+	    item_w_coupon[:count] += coupon[:num]
+	    item_info[:count] -= coupon[:num]
+	  elsif item_info and item_info[:count] >= coupon[:num]
+      cart << {
+        :item => coupon[:item] + " W/COUPON",
+        :price => (coupon[:cost]/coupon[:num]).round(2),
+        :clearance => item_info[:clearance],
+        :count => coupon[:num]
+      }
+      item_info[:count] -= coupon[:num]
+    end #if
+  end #each
+  #cart.delete_if{|item_info| item_info[:count] <= 0}
+  cart
 end
 
 def apply_clearance(cart)
